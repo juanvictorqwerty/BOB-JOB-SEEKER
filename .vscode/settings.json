@@ -1,0 +1,7 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "yaml.schemaStore.enable": false,
+    "yaml.schemas": {
+        "none": "**/application.yml"
+    }
+}

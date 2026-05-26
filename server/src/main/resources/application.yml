@@ -1,0 +1,34 @@
+spring:
+    application:
+        # Application name used in Spring Boot Actuator, logs, and service discovery
+        name: server
+
+    # Disable Docker Compose support to prevent startup crash when no compose file is present in the workspace
+    docker:
+        compose:
+            enabled: false
+
+    datasource:
+        # Full JDBC connection string — the "jdbc:" prefix must be inline (colons in YAML values
+        # are safe when the value starts on the same line as the key)
+        url: ${DB_URL}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: org.postgresql.Driver
+
+    jpa:
+        hibernate:
+            # "update" — Hibernate will ALTER existing tables to match entity changes on startup.
+            # Safe for development. Switch to "validate" in production and use Flyway/Liquibase instead.
+            ddl-auto: update
+        # Logs the generated SQL — helpful during development, remove in production to reduce noise
+        show-sql: true
+        properties:
+            hibernate:
+                # Pretty-prints the generated SQL in the console for easier debugging
+                format_sql: true
+                # Use PostgreSQLDialect with PostGIS support
+                # For PostGIS + PgMooncake, you need the spatial dialect
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                # Enable spatial functions for PostGIS
+                hibernate.spatial.enabled: true
