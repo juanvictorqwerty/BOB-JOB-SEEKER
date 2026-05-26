@@ -50,6 +50,8 @@ public class TokenCreate {
         String jwtString = Jwts.builder()
                 .subject(user.getEmail())
                 .claim("username", user.getUsername())
+                .claim("userRank", user.getUserRank())
+                .claim("user_id", user.getId().toString()) // <— This where to store the user token
                 .issuedAt(now)
                 .expiration(expiration)
                 .signWith(key, Jwts.SIG.HS256)
