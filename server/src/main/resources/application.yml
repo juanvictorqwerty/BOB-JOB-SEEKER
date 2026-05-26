@@ -32,3 +32,4 @@ spring:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
                 # Enable spatial functions for PostGIS
                 hibernate.spatial.enabled: true
+
