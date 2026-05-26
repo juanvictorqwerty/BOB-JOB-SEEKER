@@ -7,12 +7,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -98,19 +95,4 @@ public class Users {
     @Column(name = "user_rank", nullable = false)
     private int userRank;
 
-    // @ManyToOne: many users share one role (e.g. all regular users have
-    // ROLE_JOB_SEEKER).
-    // Links to the Roles table to enable RBAC (Role-Based Access Control).
-    //
-    // ADDED: the Roles table was designed in the diagram but never connected to
-    // Users.
-    // Without this FK, the Roles table is an orphaned, unreachable entity — RBAC
-    // cannot work.
-    //
-    // nullable=true: allows user creation before a role is explicitly assigned.
-    // The service layer should always set a default role (e.g. ROLE_JOB_SEEKER) on
-    // registration.
-    @ManyToOne(fetch = FetchType.LAZY) // LAZY: only load role data when explicitly accessed
-    @JoinColumn(name = "role_id", nullable = true)
-    private Roles role;
 }
