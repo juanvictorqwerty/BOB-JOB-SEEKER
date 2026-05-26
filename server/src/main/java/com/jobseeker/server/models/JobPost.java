@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
@@ -32,6 +33,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class JobPost {
 
     @Id
@@ -102,5 +104,5 @@ public class JobPost {
     // is ever needed.
     // Defaults to true so new posts are immediately visible/open.
     @Column(name = "is_opened", nullable = false)
-    private Boolean isOpened = true;
+    private Boolean isOpened;
 }

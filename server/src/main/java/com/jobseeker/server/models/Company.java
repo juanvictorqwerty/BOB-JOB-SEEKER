@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.Instant;
@@ -16,7 +17,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "companies", indexes = {
-        // Index on name: company name is searched frequently — also backs the unique constraint
+        // Index on name: company name is searched frequently — also backs the unique
+        // constraint
         @jakarta.persistence.Index(name = "idx_companies_name", columnList = "name"),
         // Index on email: used for login and duplicate-check queries
         @jakarta.persistence.Index(name = "idx_companies_email", columnList = "email"),
@@ -28,6 +30,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Company {
 
     @Id
@@ -39,15 +42,19 @@ public class Company {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    // FIXED: added @UpdateTimestamp so Hibernate auto-populates this field on every UPDATE.
-    // Previously the field existed but had no @UpdateTimestamp annotation, meaning it would
-    // always remain NULL unless the service layer manually set it — unreliable and error-prone.
+    // FIXED: added @UpdateTimestamp so Hibernate auto-populates this field on every
+    // UPDATE.
+    // Previously the field existed but had no @UpdateTimestamp annotation, meaning
+    // it would
+    // always remain NULL unless the service layer manually set it — unreliable and
+    // error-prone.
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
 
     // Stores the MinIO object key or pre-signed URL for the company's logo image.
-    // length=1024 because MinIO object keys easily exceed the default 255-char column limit
+    // length=1024 because MinIO object keys easily exceed the default 255-char
+    // column limit
     // e.g.: "logos/{company-uuid}/logo-{timestamp}.png"
     // nullable: a company can register without uploading a logo immediately
     @Column(name = "logo_url", nullable = true, length = 1024)
@@ -57,7 +64,8 @@ public class Company {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    // JSONB: flexible description schema — e.g. {"about": "...", "industry": "Tech", "size": "50-200"}
+    // JSONB: flexible description schema — e.g. {"about": "...", "industry":
+    // "Tech", "size": "50-200"}
     // Allows adding new description sub-fields without schema migrations
     @Column(name = "description", nullable = false, columnDefinition = "jsonb")
     private String description;
@@ -66,21 +74,26 @@ public class Company {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    // Admin-controlled flag. TRUE = company is blocked from posting jobs or using the platform.
-    // Boolean WRAPPER (not primitive): allows future nullable state if semantics ever change.
+    // Admin-controlled flag. TRUE = company is blocked from posting jobs or using
+    // the platform.
+    // Boolean WRAPPER (not primitive): allows future nullable state if semantics
+    // ever change.
     @Column(name = "is_blocked", nullable = false)
     private Boolean isBlocked;
 
     // JSONB array of user UUIDs who have admin access to this company account.
     // e.g. ["uuid1", "uuid2"]
-    // NOTE: This violates 2NF (repeating group). For strict normalization and FK integrity,
+    // NOTE: This violates 2NF (repeating group). For strict normalization and FK
+    // integrity,
     // extract to a join table: company_admins(company_id UUID FK, user_id UUID FK).
-    // Keeping as JSONB for now if schema flexibility is preferred over queryability.
+    // Keeping as JSONB for now if schema flexibility is preferred over
+    // queryability.
     @Column(name = "admins", nullable = false, columnDefinition = "jsonb")
     private String admins;
 
     // JSONB array of user UUIDs who are staff members of this company.
-    // Same normalization caveat as admins above — consider a join table for production.
+    // Same normalization caveat as admins above — consider a join table for
+    // production.
     @Column(name = "staff", nullable = true, columnDefinition = "jsonb")
     private String staff;
 
