@@ -1,27 +1,30 @@
 package com.jobseeker.server.authentication.SignUp.superAdmin;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.jobseeker.server.authentication.tokens.creation.TokenCreate;
 import com.jobseeker.server.models.Users;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class SuSignUpService {
     private final TokenCreate tokenCreate;
     private final SuSignUpInterface suSignUpInterface;
+    private final BCryptPasswordEncoder passwordEncoder;
     @Value("${JWT_SECRET}")
     private String jwtSecret;
 
-    @Value("${JWT_VALIATION}")
+    @Value("${JWT_VALIDATION}")
     private String jwtExpirationStr;
 
     @Value("${SUPER_ADMIN_CODE}")
     private String superCode;
 
-    public SuSignUpService(SuSignUpInterface suSignUpInterface, TokenCreate tokenCreate) {
+    public SuSignUpService(SuSignUpInterface suSignUpInterface, TokenCreate tokenCreate,
+            BCryptPasswordEncoder passwordEncoder) {
         this.suSignUpInterface = suSignUpInterface;
         this.tokenCreate = tokenCreate;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private long getJwtExpirationMs() {
@@ -68,7 +71,6 @@ public class SuSignUpService {
                 return "Invalid Super Code";
             }
 
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
             String hashedPassword = passwordEncoder.encode(suSignUpValidation.password());
             Users newUser = Users.builder()
                     .username(suSignUpValidation.username())

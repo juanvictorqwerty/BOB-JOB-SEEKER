@@ -11,18 +11,20 @@ public class RegSignUpService {
 
     private final RegSignUpInterface regSignUpInterface;
     private final TokenCreate tokenCreate; // Injected instance
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Value("${JWT_SECRET}")
     private String jwtSecret;
 
-    @Value("${JWT_VALIATION}")
+    @Value("${JWT_VALIDATION}")
     private String jwtExpirationStr;
 
-    // Constructor injection for both dependent components
-    public RegSignUpService(RegSignUpInterface regSignUpInterface, TokenCreate tokenCreate) {
+    // Constructor injection for all dependent components
+    public RegSignUpService(RegSignUpInterface regSignUpInterface, TokenCreate tokenCreate,
+            BCryptPasswordEncoder passwordEncoder) {
         this.regSignUpInterface = regSignUpInterface;
         this.tokenCreate = tokenCreate;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private long getJwtExpirationMs() {
@@ -46,7 +48,8 @@ public class RegSignUpService {
                 return 86400000L; // Fallback
             }
         }
-        // If parsed product is in seconds (e.g. less than 100 million), convert to milliseconds
+        // If parsed product is in seconds (e.g. less than 100 million), convert to
+        // milliseconds
         if (product < 100_000_000L) {
             product *= 1000L;
         }
