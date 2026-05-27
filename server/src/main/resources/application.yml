@@ -48,6 +48,15 @@ spring:
                     connectiontimeout: 5000
                     writetimeout: 5000
 
+    web:
+        cors:
+            mapping:
+                /api/**:
+                    allowed-origins: ${CORS}
+                    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+                    allowed-headers: "*"
+                    allow-credentials: true
+
     threads:
         virtual:
             enabled: true

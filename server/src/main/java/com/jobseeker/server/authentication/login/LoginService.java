@@ -1,9 +1,12 @@
 package com.jobseeker.server.authentication.login;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.jobseeker.server.authentication.dto.AuthDto;
 import com.jobseeker.server.authentication.tokens.creation.TokenCreate;
 import com.jobseeker.server.models.Users;
 
@@ -23,7 +26,7 @@ public class LoginService {
             TokenCreate tokenCreate) {
         this.loginInterface = loginInterface;
         this.passwordEncoder = passwordEncoder;
-        this.tokenCreate = tokenCreate; // Was: null
+        this.tokenCreate = tokenCreate;
     }
 
     private long getJwtExpirationMs() {
@@ -53,22 +56,49 @@ public class LoginService {
         return product;
     }
 
-    public String login(LoginValidation loginValidation) {
+    public ResponseEntity<AuthDto> login(LoginValidation loginValidation) {
         try {
             Users user = loginInterface.findByEmail(loginValidation.email());
             if (user == null) {
-                return "Login failed: Email not found.";
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(AuthDto.builder()
+                                .success(false)
+                                .token(null)
+                                .message("Login failed: Email not found.")
+                                .build());
             }
             if (user.isBlocked()) {
-                return "Login failed: User is blocked.";
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(AuthDto.builder()
+                                .success(false)
+                                .token(null)
+                                .message("Login failed: User is blocked.")
+                                .build());
             }
             if (!passwordEncoder.matches(loginValidation.password(), user.getPassword())) {
-                return "Login failed: Invalid email or password";
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(AuthDto.builder()
+                                .success(false)
+                                .token(null)
+                                .message("Login failed: Invalid email or password")
+                                .build());
             }
+
             String token = tokenCreate.generateAndSaveToken(user, jwtSecret, getJwtExpirationMs());
-            return "Login successful. Token: " + token + "rank" + user.getUserRank();
+            return ResponseEntity.ok(AuthDto.builder()
+                    .success(true)
+                    .token(token)
+                    .message("Login successful")
+                    .rank(user.getUserRank())
+                    .build());
+
         } catch (Exception e) {
-            return "Login failed: " + e.getMessage();
+            return ResponseEntity.badRequest()
+                    .body(AuthDto.builder()
+                            .success(false)
+                            .token(null)
+                            .message("Login failed: " + e.getMessage())
+                            .build());
         }
     }
 }

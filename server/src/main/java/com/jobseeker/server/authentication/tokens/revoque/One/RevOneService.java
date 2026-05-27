@@ -20,9 +20,10 @@ public class RevOneService {
             }
             tokens.setIsValid(false);
             revOneInterface.save(tokens);
-            return "Token Revoked Successfully";
+            return "{ \"success\": true, \"token\": \"null\", \"message\": \"Token revoked successfully\"}";
         } catch (Exception e) {
-            return ("Token Revocation Failed");
+            return "{ \"success\": false, \"token\": \"null\", \"message\": \"Token revocation failed: "
+                    + e.getMessage() + "\"}";
         }
     }
 }

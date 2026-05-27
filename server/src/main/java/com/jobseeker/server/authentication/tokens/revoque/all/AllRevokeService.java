@@ -41,10 +41,11 @@ public class AllRevokeService {
             // Save all revoked tokens (use saveAll for efficiency)
             allRevokeInterface.saveAll(allUserTokens);
 
-            return "All tokens revoked successfully";
+            return "{ \"success\": true, \"token\": \"null\", \"message\": \"All tokens revoked successfully\"}";
 
         } catch (Exception e) {
-            return "Token revocation failed: " + e.getMessage();
+            return "{ \"success\": false, \"token\": \"null\", \"message\": \"Token revocation failed: "
+                    + e.getMessage() + "\"}";
         }
     }
 }

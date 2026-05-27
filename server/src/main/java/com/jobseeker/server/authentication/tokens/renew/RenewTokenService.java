@@ -55,10 +55,11 @@ public class RenewTokenService {
             tokenEntity.setExpiresAt(Instant.now().plusSeconds(30L * 24 * 60 * 60));
             tokenRepository.save(tokenEntity);
 
-            return "{ \"message\": \"Token renewed successfully\"}token:" + tokenEntity;
+            return "{ \"success\": true, \"token\": \"" + tokenEntity
+                    + "\", \"message\": \"Token renewed successfully\"}";
 
         } catch (Exception e) {
-            return "Error: " + e.getMessage();
+            return "{ \"success\": false, \"token\": \"null\", \"message\": \"" + e.getMessage() + "\"}";
         }
     }
 }
