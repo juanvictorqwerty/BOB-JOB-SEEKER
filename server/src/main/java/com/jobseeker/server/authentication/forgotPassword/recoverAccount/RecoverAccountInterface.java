@@ -1,4 +1,4 @@
-package com.jobseeker.server.authentication.update.users.changeRank;
+package com.jobseeker.server.authentication.forgotPassword.recoverAccount;
 
 import java.util.UUID;
 
@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jobseeker.server.models.Users;
 
-public interface ChangeRankInterface extends JpaRepository<Users, UUID> {
+public interface RecoverAccountInterface extends JpaRepository<Users, UUID> {
     Users findByEmail(String email);
-
 }
