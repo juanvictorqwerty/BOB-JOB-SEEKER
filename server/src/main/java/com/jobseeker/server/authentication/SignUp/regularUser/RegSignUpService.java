@@ -1,9 +1,12 @@
 package com.jobseeker.server.authentication.SignUp.regularUser;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.jobseeker.server.models.Users;
+import com.jobseeker.server.authentication.dto.AuthDto;
 import com.jobseeker.server.authentication.tokens.creation.TokenCreate;
 
 @Service
@@ -56,14 +59,24 @@ public class RegSignUpService {
         return product;
     }
 
-    public String register(RegSignUpValidation regSignUpValidation) {
+    public ResponseEntity<AuthDto> register(RegSignUpValidation regSignUpValidation) {
         try {
             // Uniqueness Checks
             if (regSignUpInterface.findByUsername(regSignUpValidation.username()) != null) {
-                return "{'success': false, 'token': '" + null + "'+message:'Username is already taken.'}";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(AuthDto.builder()
+                                .success(false)
+                                .token(null)
+                                .message("Username already exists")
+                                .build());
             }
             if (regSignUpInterface.findByEmail(regSignUpValidation.email()) != null) {
-                return "{'success': false, 'token': '" + null + "'+message:'Email is already registered.'}";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(AuthDto.builder()
+                                .success(false)
+                                .token(null)
+                                .message("Email already exists")
+                                .build());
             }
 
             String hashedPassword = passwordEncoder.encode(regSignUpValidation.password());
@@ -84,11 +97,20 @@ public class RegSignUpService {
             // database table link.
             String token = tokenCreate.generateAndSaveToken(savedUser, jwtSecret, getJwtExpirationMs());
 
-            return "{'success': true, 'token': '" + token + "'+message:'Account created successfully.'+'rank': '"
-                    + savedUser.getUserRank() + "'}";
+            return ResponseEntity.ok(AuthDto.builder()
+                    .success(true)
+                    .token(token)
+                    .message("Account created successfully")
+                    .rank(savedUser.getUserRank())
+                    .build());
 
         } catch (Exception e) {
-            return "{'success': false, 'token': '" + null + "'+message:'Account created failed.'}";
+            return ResponseEntity.badRequest()
+                    .body(AuthDto.builder()
+                            .success(false)
+                            .token(null)
+                            .message("Account created failed: " + e.getMessage())
+                            .build());
         }
     }
 }
