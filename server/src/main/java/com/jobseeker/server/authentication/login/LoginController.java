@@ -1,8 +1,11 @@
 package com.jobseeker.server.authentication.login;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.jobseeker.server.authentication.dto.AuthDto;
 
 import jakarta.validation.Valid;
 
@@ -16,7 +19,7 @@ public class LoginController {
     }
 
     @PostMapping("/api/auth/login")
-    public String login(@RequestBody @Valid LoginValidation loginValidation) {
+    public ResponseEntity<AuthDto> login(@RequestBody @Valid LoginValidation loginValidation) {
         return loginService.login(loginValidation);
     }
 }
