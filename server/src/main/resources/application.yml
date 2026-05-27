@@ -33,3 +33,21 @@ spring:
                 # Enable spatial functions for PostGIS
                 hibernate.spatial.enabled: true
 
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: ${MAIL_USER}
+        password: ${MAIL_PASS}
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+                    timeout: 5000
+                    connectiontimeout: 5000
+                    writetimeout: 5000
+
+    threads:
+        virtual:
+            enabled: true
