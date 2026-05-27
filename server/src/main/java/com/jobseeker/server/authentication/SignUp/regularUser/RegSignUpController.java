@@ -14,7 +14,7 @@ public class RegSignUpController {
         this.regSignUpService = regSignUpService;
     }
 
-    @PostMapping("/api/register/regular")
+    @PostMapping("/api/auth/register/regular")
     public String register(@Valid @RequestBody RegSignUpValidation regSignUpValidation) {
 
         return regSignUpService.register(regSignUpValidation);

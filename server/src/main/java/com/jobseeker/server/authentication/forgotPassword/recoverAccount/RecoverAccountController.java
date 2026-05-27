@@ -15,7 +15,7 @@ public class RecoverAccountController {
         this.recoverAccountService = recoverAccountService;
     }
 
-    @PostMapping("/api/recover-account/{token}")
+    @PostMapping("/api/auth/recover-account/{token}")
     public String recoverAccount(
             @Valid @RequestBody RecoverAccountValidation recoverAccountValidation,
             @PathVariable String token) {

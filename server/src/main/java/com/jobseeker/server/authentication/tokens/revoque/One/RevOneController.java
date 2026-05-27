@@ -13,7 +13,7 @@ public class RevOneController {
         this.revOneService = revOneService;
     }
 
-    @PostMapping("/api/revoke-one")
+    @PostMapping("/api/auth/revoke-one")
     public String revOneToken(@RequestBody @Valid RevOneValidation revOneValidation) {
         return revOneService.revOneToken(revOneValidation);
     }

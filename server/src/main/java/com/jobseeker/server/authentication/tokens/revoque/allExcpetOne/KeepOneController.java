@@ -15,7 +15,7 @@ public class KeepOneController {
         this.keepOneService = keepOneService;
     }
 
-    @PostMapping("/api/keep-one")
+    @PostMapping("/api/auth/keep-one")
     public String keepOne(@Valid @RequestBody KeepOneValidation keepOneValidation) {
         return keepOneService.keepOne(keepOneValidation);
     }

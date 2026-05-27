@@ -14,7 +14,7 @@ public class RenewTokenController {
         this.renewTokenService = renewTokenService;
     }
 
-    @PostMapping("/api/token/renew")
+    @PostMapping("/api/auth/token/renew")
     public String renewToken(@Valid @RequestBody RenewTokenValidation renewTokenValidation) {
         return renewTokenService.renewToken(renewTokenValidation);
     }

@@ -14,7 +14,7 @@ public class ChangeRankController {
         this.changeRankService = changeRankService;
     }
 
-    @PostMapping("api/change-rank")
+    @PostMapping("/api/auth/change-rank")
     public String changeRank(@Valid @RequestBody ChangeRankValidation changeRankValidation) {
         return changeRankService.changeRank(changeRankValidation);
     }

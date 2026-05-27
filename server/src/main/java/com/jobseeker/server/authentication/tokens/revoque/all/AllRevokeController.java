@@ -13,7 +13,7 @@ public class AllRevokeController {
         this.allRevokeService = allRevokeService;
     }
 
-    @PostMapping("/api/revoke-all")
+    @PostMapping("/api/auth/revoke-all")
     public String revAllToken(@Valid @RequestBody AllRevokeValidation allRevokeValidation) {
         return allRevokeService.revokeAllTokens(allRevokeValidation);
     }
