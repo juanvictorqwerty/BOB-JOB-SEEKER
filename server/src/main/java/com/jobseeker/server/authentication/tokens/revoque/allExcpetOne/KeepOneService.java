@@ -43,10 +43,11 @@ public class KeepOneService {
             // Save all revoked tokens (use saveAll for efficiency)
             keepOneInterface.saveAll(allUserTokens);
 
-            return "All tokens revoked successfully except the current one";
+            return "{ \"success\": true, \"token\": \"null\", \"message\": \"All tokens revoked successfully except the current one\"}";
 
         } catch (Exception e) {
-            return "Token revocation failed: " + e.getMessage();
+            return "{ \"success\": false, \"token\": \"null\", \"message\": \"Token revocation failed: "
+                    + e.getMessage() + "\"}";
         }
     }
 }
