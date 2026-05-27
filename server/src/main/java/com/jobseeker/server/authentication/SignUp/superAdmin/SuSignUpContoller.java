@@ -14,7 +14,7 @@ public class SuSignUpContoller {
         this.suSignUpService = suSignUpService;
     }
 
-    @PostMapping("/api/register/superadmin")
+    @PostMapping("/api/auth/register/superadmin")
     public String register(@Valid @RequestBody SuSignUpValidation suSignUpValidation) {
         return suSignUpService.register(suSignUpValidation);
     }

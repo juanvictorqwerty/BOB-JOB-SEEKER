@@ -14,7 +14,7 @@ public class SendRecoveryEmailController {
         this.sendRecoveyEmailService = sendRecoveyEmailService;
     }
 
-    @PostMapping("/api/send-recovery-email")
+    @PostMapping("/api/auth/send-recovery-email")
     public String sendRecoveryEmail(@Valid @RequestBody SendRecoveryEmailValidation sendRecoveyEmailValidation) {
         return sendRecoveyEmailService.sendRecoveryEmail(sendRecoveyEmailValidation);
     }

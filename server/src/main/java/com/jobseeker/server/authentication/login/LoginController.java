@@ -15,7 +15,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/api/auth/login")
     public String login(@RequestBody @Valid LoginValidation loginValidation) {
         return loginService.login(loginValidation);
     }

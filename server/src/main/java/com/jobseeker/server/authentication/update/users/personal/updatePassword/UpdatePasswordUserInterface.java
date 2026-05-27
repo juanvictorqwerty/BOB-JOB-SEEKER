@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jobseeker.server.models.Users;
 
-public interface UserInterface extends JpaRepository<Users, UUID> {
+public interface UpdatePasswordUserInterface extends JpaRepository<Users, UUID> {
     Users findByEmail(String email);
 }

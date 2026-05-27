@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
-public class ChangEmailController {
+public class ChangeEmailController {
     private final ChangEmailService changEmailService;
 
-    public ChangEmailController(ChangEmailService changEmailService) {
+    public ChangeEmailController(ChangEmailService changEmailService) {
         this.changEmailService = changEmailService;
     }
 
-    @PostMapping("api/change-email")
+    @PostMapping("api/auth/change-email")
     public String changeEmail(
             @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody ChangeEmailValidation changeEmailValidation) {

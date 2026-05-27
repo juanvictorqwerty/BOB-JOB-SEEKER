@@ -66,7 +66,7 @@ public class LoginService {
                 return "Login failed: Invalid email or password";
             }
             String token = tokenCreate.generateAndSaveToken(user, jwtSecret, getJwtExpirationMs());
-            return "Login successful. Token: " + token;
+            return "Login successful. Token: " + token + "rank" + user.getUserRank();
         } catch (Exception e) {
             return "Login failed: " + e.getMessage();
         }

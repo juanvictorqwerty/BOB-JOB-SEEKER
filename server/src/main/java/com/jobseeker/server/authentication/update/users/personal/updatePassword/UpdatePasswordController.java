@@ -15,7 +15,7 @@ public class UpdatePasswordController {
         this.updatePasswordService = updatePasswordService;
     }
 
-    @PostMapping("/api/update-password")
+    @PostMapping("/api/auth/update-password")
     public String updatePassword(
             @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody UpdatePasswordValidation updatePasswordValidation) {

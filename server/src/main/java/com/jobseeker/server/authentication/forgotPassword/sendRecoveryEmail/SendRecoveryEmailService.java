@@ -13,10 +13,10 @@ public class SendRecoveryEmailService {
     private final EmailService emailService;
     private final TokenCreate tokenCreate; // <-- ADDED: inject your token service
 
-    @Value("${jwt.secret}")
+    @Value("${JWT_SECRET}")
     private String jwtSecret;
 
-    @Value("${jwt.validation}")
+    @Value("${JWT_VALIDATION}")
     private long jwtExpirationMs;
 
     public SendRecoveryEmailService(SendRecoveryEmailInterface sendRecoveryEmailInterface,
@@ -45,7 +45,7 @@ public class SendRecoveryEmailService {
             );
 
             // 3. Send recovery email with recovery token
-            String recoveryUrl = "http://localhost:3000/recovery?token=" + token;
+            String recoveryUrl = "http://localhost:3000/recover-account?token=" + token;
             emailService.sendEmail(
                     sendRecoveryEmailValidation.email(),
                     "Password Recovery",
