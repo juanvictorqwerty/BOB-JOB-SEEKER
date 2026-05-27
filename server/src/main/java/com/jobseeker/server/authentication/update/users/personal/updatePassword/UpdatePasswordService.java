@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.jobseeker.server.models.Tokens;
 import com.jobseeker.server.models.Users;
 
+import java.util.List;
+
 @Service
 public class UpdatePasswordService {
     private final UpdatePasswordInterface updatePasswordInterface;
@@ -51,7 +53,18 @@ public class UpdatePasswordService {
             // 6. Save updated user
             userInterface.save(user);
 
-            return "Password updated successfully";
+            // 7. Revoke all tokens except the current one
+            List<Tokens> allUserTokens = updatePasswordInterface.findAllByUserId(user.getId());
+            for (Tokens userToken : allUserTokens) {
+                if (!userToken.getValue().equals(token)) {
+                    userToken.setIsValid(false);
+                }
+            }
+
+            // 8. Bulk save the invalidated tokens
+            updatePasswordInterface.saveAll(allUserTokens);
+
+            return "Password updated successfully. Other active sessions have been logged out.";
 
         } catch (Exception e) {
             return "Password update failed: " + e.getMessage();
