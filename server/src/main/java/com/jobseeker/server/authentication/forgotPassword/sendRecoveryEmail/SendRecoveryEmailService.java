@@ -13,10 +13,10 @@ public class SendRecoveryEmailService {
     private final EmailService emailService;
     private final TokenCreate tokenCreate; // <-- ADDED: inject your token service
 
-    @Value("${jwt.secret}")
+    @Value("${JWT_SECRET}")
     private String jwtSecret;
 
-    @Value("${jwt.validation}")
+    @Value("${JWT_VALIDATION}")
     private long jwtExpirationMs;
 
     public SendRecoveryEmailService(SendRecoveryEmailInterface sendRecoveryEmailInterface,

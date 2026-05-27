@@ -11,14 +11,14 @@ import java.util.List;
 @Service
 public class UpdatePasswordService {
     private final UpdatePasswordInterface updatePasswordInterface;
-    private final UserInterface userInterface;
+    private final UpdatePasswordUserInterface updatePasswordUserInterface;
     private final PasswordEncoder passwordEncoder;
 
     public UpdatePasswordService(UpdatePasswordInterface updatePasswordInterface,
-            UserInterface userInterface,
+            UpdatePasswordUserInterface updatePasswordUserInterface,
             PasswordEncoder passwordEncoder) {
         this.updatePasswordInterface = updatePasswordInterface;
-        this.userInterface = userInterface;
+        this.updatePasswordUserInterface = updatePasswordUserInterface;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -51,20 +51,16 @@ public class UpdatePasswordService {
             user.setPassword(encodedNewPassword);
 
             // 6. Save updated user
-            userInterface.save(user);
+            updatePasswordUserInterface.save(user);
 
-            // 7. Revoke all tokens except the current one
+            // 7. Revoke ALL tokens for this user (including current session)
             List<Tokens> allUserTokens = updatePasswordInterface.findAllByUserId(user.getId());
             for (Tokens userToken : allUserTokens) {
-                if (!userToken.getValue().equals(token)) {
-                    userToken.setIsValid(false);
-                }
+                userToken.setIsValid(false); // <-- removed the "except current" condition
             }
-
-            // 8. Bulk save the invalidated tokens
             updatePasswordInterface.saveAll(allUserTokens);
 
-            return "Password updated successfully. Other active sessions have been logged out.";
+            return "Password updated successfully. All sessions have been logged out. Please log in again.";
 
         } catch (Exception e) {
             return "Password update failed: " + e.getMessage();
