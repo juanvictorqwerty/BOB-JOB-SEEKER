@@ -45,7 +45,7 @@ public class SendRecoveryEmailService {
             );
 
             // 3. Send recovery email with recovery token
-            String recoveryUrl = "http://localhost:3000/recovery?token=" + token;
+            String recoveryUrl = "http://localhost:3000/recover-account?token=" + token;
             emailService.sendEmail(
                     sendRecoveryEmailValidation.email(),
                     "Password Recovery",
