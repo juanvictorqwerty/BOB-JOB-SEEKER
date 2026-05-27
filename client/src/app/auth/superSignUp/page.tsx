@@ -17,6 +17,7 @@ export default function SignUpAdmin() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [supercode, setSuperCode] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -31,13 +32,13 @@ export default function SignUpAdmin() {
 
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_BASE}/auth/register/regular`,
+                `${process.env.NEXT_PUBLIC_API_BASE}/auth/register/superadmin`,
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ email, username, password }),
+                    body: JSON.stringify({ email, username, password, supercode }),
                 }
             );
 
@@ -297,7 +298,49 @@ export default function SignUpAdmin() {
                                 `}
                             ></div>
                         </div>
-
+                        {/* Super Code Input */}
+                        <div className="mb-6">
+                            <label
+                                htmlFor="superCode"
+                                className={`
+                                    block text-sm font-medium mb-2 transition-colors duration-300
+                                    ${isDark ? "text-slate-300" : "text-gray-700"}
+                                `}
+                            >
+                                Super Code
+                            </label>
+                            <div className="relative group">
+                                <input
+                                    type="text"
+                                    id="supercode"
+                                    name="supercode"
+                                    value={supercode}
+                                    onChange={(e) => setSuperCode(e.target.value)}
+                                    placeholder="Enter super code"
+                                    required
+                                    disabled={isLoading}
+                                    className={`
+                                        w-full px-4 py-3 rounded-lg
+                                        focus:outline-none focus:ring-2 transition-all duration-200
+                                        disabled:opacity-50
+                                        ${isDark
+                                            ? "bg-white/5 border border-white/20 text-white placeholder-slate-400 focus:ring-blue-500/50 focus:border-blue-500/50"
+                                            : "bg-gray-100/50 border border-gray-300/50 text-gray-900 placeholder-gray-500 focus:ring-blue-400/50 focus:border-blue-400/50"
+                                        }
+                                    `}
+                                />
+                                <div
+                                    className={`
+                                        absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100
+                                        transition-opacity duration-300 pointer-events-none
+                                        ${isDark
+                                            ? "bg-linear-to-r from-blue-500/20 to-purple-500/20"
+                                            : "bg-linear-to-r from-blue-400/10 to-purple-400/10"
+                                        }
+                                    `}
+                                ></div>
+                            </div>
+                        </div>
                         {/* Submit Button */}
                         <button
                             type="submit"
