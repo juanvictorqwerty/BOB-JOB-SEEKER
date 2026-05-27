@@ -7,37 +7,46 @@ import { useTheme } from "@/context/ThemeProvider";
 import { useToast } from "@/context/ToastContext";
 import Cookies from "js-cookie";
 
-export default function Login() {
+export default function SignUp() {
     const router = useRouter();
     const { theme, toggleTheme } = useTheme();
     const { showSuccess, showError } = useToast();
     const isDark = theme === "dark";
 
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
 
+        if (password !== confirmPassword) {
+            showError("Passwords do not match");
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_BASE}/auth/login`,
+                `${process.env.NEXT_PUBLIC_API_BASE}/auth/register/regular`,
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({ email, username, password }),
                 }
             );
 
             if (response.ok) {
                 const data = await response.json();
-                showSuccess(data.message || "Login successful!");
+                showSuccess(data.message || "signup successful!");
                 Cookies.set("token", data.token);
                 Cookies.set("rank", data.rank.toString());
+
                 setTimeout(() => {
                     if (data.rank === 0) {
                         router.push("/admin");
@@ -47,7 +56,7 @@ export default function Login() {
                 }, 1500);
             } else {
                 const data = await response.json();
-                showError(data.message || "Invalid credentials");
+                showError(data.message || "Failed to signup");
             }
         } catch (error) {
             console.error(error);
@@ -117,7 +126,7 @@ export default function Login() {
                                     ${isDark ? "text-slate-300" : "text-gray-600"}
                                 `}
                             >
-                                Sign in to your account
+                                Create your account
                             </p>
                         </div>
 
@@ -192,6 +201,39 @@ export default function Login() {
                             ></div>
                         </div>
 
+                        {/*username*/}
+                        <div className="relative group">
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                placeholder="your username"
+                                required
+                                disabled={isLoading}
+                                className={`
+                                    w-full px-4 py-3 rounded-lg
+                                    focus:outline-none focus:ring-2 transition-all duration-200
+                                    disabled:opacity-50
+                                    ${isDark
+                                        ? "bg-white/5 border border-white/20 text-white placeholder-slate-400 focus:ring-blue-500/50 focus:border-blue-500/50"
+                                        : "bg-gray-100/50 border border-gray-300/50 text-gray-900 placeholder-gray-500 focus:ring-blue-400/50 focus:border-blue-400/50"
+                                    }
+                                `}
+                            />
+                            <div
+                                className={`
+                                    absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100
+                                    transition-opacity duration-300 pointer-events-none
+                                    ${isDark
+                                        ? "bg-linear-to-r from-blue-500/20 to-purple-500/20"
+                                        : "bg-linear-to-r from-blue-400/10 to-purple-400/10"
+                                    }
+                                `}
+                            ></div>
+                        </div>
+
                         {/* Password Input */}
                         <div className="relative group">
                             <input
@@ -201,6 +243,38 @@ export default function Login() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••"
+                                required
+                                disabled={isLoading}
+                                className={`
+                                    w-full px-4 py-3 rounded-lg
+                                    focus:outline-none focus:ring-2 transition-all duration-200
+                                    disabled:opacity-50
+                                    ${isDark
+                                        ? "bg-white/5 border border-white/20 text-white placeholder-slate-400 focus:ring-blue-500/50 focus:border-blue-500/50"
+                                        : "bg-gray-100/50 border border-gray-300/50 text-gray-900 placeholder-gray-500 focus:ring-blue-400/50 focus:border-blue-400/50"
+                                    }
+                                `}
+                            />
+                            <div
+                                className={`
+                                    absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100
+                                    transition-opacity duration-300 pointer-events-none
+                                    ${isDark
+                                        ? "bg-linear-to-r from-blue-500/20 to-purple-500/20"
+                                        : "bg-linear-to-r from-blue-400/10 to-purple-400/10"
+                                    }
+                                `}
+                            ></div>
+                        </div>
+
+                        {/* Confirm Password */}
+                        <div className="relative group">
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                placeholder="Re-type password"
                                 required
                                 disabled={isLoading}
                                 className={`
@@ -262,10 +336,10 @@ export default function Login() {
                                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                         ></path>
                                     </svg>
-                                    Signing in...
+                                    Signing up...
                                 </>
                             ) : (
-                                "Sign in"
+                                "Sign Up"
                             )}
                         </button>
                     </form>
@@ -296,7 +370,7 @@ export default function Login() {
                     </div>
 
                     {/* Create Account Button */}
-                    <Link href="/auth/signup" className="block">
+                    <Link href="/auth/login" className="block">
                         <button
                             type="button"
                             className={`
@@ -308,25 +382,10 @@ export default function Login() {
                                 }
                             `}
                         >
-                            Create Account
+                            Login
                         </button>
                     </Link>
 
-                    {/* Forgot Password Link */}
-                    <div className="text-center mt-4">
-                        <a
-                            href="#"
-                            className={`
-                                text-sm transition-colors duration-200
-                                ${isDark
-                                    ? "text-slate-400 hover:text-blue-400"
-                                    : "text-gray-600 hover:text-blue-600"
-                                }
-                            `}
-                        >
-                            Forgot password?
-                        </a>
-                    </div>
                 </div>
 
                 {/* Footer Text */}
@@ -336,7 +395,7 @@ export default function Login() {
                         ${isDark ? "text-slate-500" : "text-gray-500"}
                     `}
                 >
-                    By signing in, you agree to our{" "}
+                    By signing up, you agree to our{" "}
                     <a
                         href="#"
                         className={`
