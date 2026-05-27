@@ -60,10 +60,10 @@ public class RegSignUpService {
         try {
             // Uniqueness Checks
             if (regSignUpInterface.findByUsername(regSignUpValidation.username()) != null) {
-                return "Registration impossible: Username is already taken.";
+                return "{'success': false, 'token': '" + null + "'+message:'Username is already taken.'}";
             }
             if (regSignUpInterface.findByEmail(regSignUpValidation.email()) != null) {
-                return "Registration impossible: Email is already registered.";
+                return "{'success': false, 'token': '" + null + "'+message:'Email is already registered.'}";
             }
 
             String hashedPassword = passwordEncoder.encode(regSignUpValidation.password());
@@ -84,10 +84,11 @@ public class RegSignUpService {
             // database table link.
             String token = tokenCreate.generateAndSaveToken(savedUser, jwtSecret, getJwtExpirationMs());
 
-            return "New Account Created Successfully. Token: " + token;
+            return "{'success': true, 'token': '" + token + "'+message:'Account created successfully.'+'rank': '"
+                    + savedUser.getUserRank() + "'}";
 
         } catch (Exception e) {
-            return "Registration failed: " + e.getMessage();
+            return "{'success': false, 'token': '" + null + "'+message:'Account created failed.'}";
         }
     }
 }

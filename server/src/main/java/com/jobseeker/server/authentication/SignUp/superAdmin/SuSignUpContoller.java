@@ -1,8 +1,11 @@
 package com.jobseeker.server.authentication.SignUp.superAdmin;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.jobseeker.server.authentication.dto.AuthDto;
 
 import jakarta.validation.Valid;
 
@@ -15,7 +18,7 @@ public class SuSignUpContoller {
     }
 
     @PostMapping("/api/auth/register/superadmin")
-    public String register(@Valid @RequestBody SuSignUpValidation suSignUpValidation) {
+    public ResponseEntity<AuthDto> register(@Valid @RequestBody SuSignUpValidation suSignUpValidation) {
         return suSignUpService.register(suSignUpValidation);
     }
 }
