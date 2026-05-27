@@ -60,8 +60,8 @@ export default function Login() {
             className={`
                 min-h-screen transition-colors duration-300
                 ${isDark
-                    ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
-                    : "bg-gradient-to-br from-white via-gray-50 to-gray-100"
+                    ? "bg-linear-to-br from-slate-900 via-slate-800 to-slate-900"
+                    : "bg-linear-to-br from-white via-gray-50 to-gray-100"
                 }
                 flex items-center justify-center p-4 relative overflow-hidden
             `}
@@ -183,8 +183,8 @@ export default function Login() {
                                     absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100
                                     transition-opacity duration-300 pointer-events-none
                                     ${isDark
-                                        ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20"
-                                        : "bg-gradient-to-r from-blue-400/10 to-purple-400/10"
+                                        ? "bg-linear-to-r from-blue-500/20 to-purple-500/20"
+                                        : "bg-linear-to-r from-blue-400/10 to-purple-400/10"
                                     }
                                 `}
                             ></div>
@@ -216,8 +216,8 @@ export default function Login() {
                                     absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100
                                     transition-opacity duration-300 pointer-events-none
                                     ${isDark
-                                        ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20"
-                                        : "bg-gradient-to-r from-blue-400/10 to-purple-400/10"
+                                        ? "bg-linear-to-r from-blue-500/20 to-purple-500/20"
+                                        : "bg-linear-to-r from-blue-400/10 to-purple-400/10"
                                     }
                                 `}
                             ></div>
@@ -233,8 +233,8 @@ export default function Login() {
                                 disabled:opacity-50 disabled:cursor-not-allowed
                                 flex items-center justify-center gap-2
                                 ${isDark
-                                    ? "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white hover:shadow-lg hover:shadow-blue-500/25"
-                                    : "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white hover:shadow-lg hover:shadow-blue-500/20"
+                                    ? "bg-linear-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white hover:shadow-lg hover:shadow-blue-500/25"
+                                    : "bg-linear-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white hover:shadow-lg hover:shadow-blue-500/20"
                                 }
                             `}
                         >

@@ -55,7 +55,7 @@ export default function ToastItem({ toast, onClose }: ToastItemProps) {
     const iconMap = {
         success: (
             <svg
-                className="w-5 h-5 flex-shrink-0"
+                className="w-5 h-5 shrink-0"
                 fill="currentColor"
                 viewBox="0 0 20 20"
             >
@@ -68,7 +68,7 @@ export default function ToastItem({ toast, onClose }: ToastItemProps) {
         ),
         error: (
             <svg
-                className="w-5 h-5 flex-shrink-0"
+                className="w-5 h-5 shrink-0"
                 fill="currentColor"
                 viewBox="0 0 20 20"
             >
@@ -81,7 +81,7 @@ export default function ToastItem({ toast, onClose }: ToastItemProps) {
         ),
         warning: (
             <svg
-                className="w-5 h-5 flex-shrink-0"
+                className="w-5 h-5 shrink-0"
                 fill="currentColor"
                 viewBox="0 0 20 20"
             >
@@ -94,7 +94,7 @@ export default function ToastItem({ toast, onClose }: ToastItemProps) {
         ),
         info: (
             <svg
-                className="w-5 h-5 flex-shrink-0"
+                className="w-5 h-5 shrink-0"
                 fill="currentColor"
                 viewBox="0 0 20 20"
             >
@@ -126,7 +126,7 @@ export default function ToastItem({ toast, onClose }: ToastItemProps) {
                 </p>
                 <button
                     onClick={onClose}
-                    className={`flex-shrink-0 mt-0.5 opacity-50 hover:opacity-100 transition-opacity ${colors.text}`}
+                    className={`shrink-0 mt-0.5 opacity-50 hover:opacity-100 transition-opacity ${colors.text}`}
                     aria-label="Close notification"
                 >
                     <svg
