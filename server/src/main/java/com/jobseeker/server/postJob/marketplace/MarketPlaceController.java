@@ -14,17 +14,17 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/add/marketplace")
-public class Controller {
+public class MarketPlaceController {
 
     private final MarketPlaceService marketPlaceService;
 
-    public Controller(MarketPlaceService marketPlaceService) {
+    public MarketPlaceController(MarketPlaceService marketPlaceService) {
         this.marketPlaceService = marketPlaceService;
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MarketPlace> createPost(
-            @Valid @RequestPart("data") Validation request,
+            @Valid @RequestPart("data") MarketPlaceValidation request,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
             @AuthenticationPrincipal String userIdStr) {
 

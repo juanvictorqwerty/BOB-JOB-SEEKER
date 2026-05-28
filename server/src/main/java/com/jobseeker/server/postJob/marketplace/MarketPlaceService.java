@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MarketPlaceService {
-    MarketPlace createListing(Validation request, List<MultipartFile> images, UUID postingUserId);
+    MarketPlace createListing(MarketPlaceValidation request, List<MultipartFile> images, UUID postingUserId);
 }

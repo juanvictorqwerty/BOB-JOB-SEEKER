@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class Validation {
+public class MarketPlaceValidation {
 
     @NotBlank(message = "Title is required")
     private String title;

@@ -20,8 +20,8 @@ import java.util.UUID;
 @Service
 public class MarketPlaceServiceImpl implements MarketPlaceService {
 
-    private final Interface marketPlaceRepository;
-    private final UserRepo usersRepository;
+    private final MarketPlaceInterface marketPlaceRepository;
+    private final MarketPlaceUserRepo usersRepository;
     private final ObjectMapper objectMapper;
 
     // 1. DYNAMIC ROOT RESOLUTION: Resolves to where your .mvn folder / pom.xml is
@@ -29,8 +29,8 @@ public class MarketPlaceServiceImpl implements MarketPlaceService {
     private static final String UPLOAD_DIR = "images";
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-    public MarketPlaceServiceImpl(Interface marketPlaceRepository,
-            UserRepo usersRepository,
+    public MarketPlaceServiceImpl(MarketPlaceInterface marketPlaceRepository,
+            MarketPlaceUserRepo usersRepository,
             ObjectMapper objectMapper) {
         this.marketPlaceRepository = marketPlaceRepository;
         this.usersRepository = usersRepository;
@@ -39,7 +39,7 @@ public class MarketPlaceServiceImpl implements MarketPlaceService {
 
     @Override
     @Transactional
-    public MarketPlace createListing(Validation request, List<MultipartFile> images, UUID postingUserId) {
+    public MarketPlace createListing(MarketPlaceValidation request, List<MultipartFile> images, UUID postingUserId) {
 
         if (images != null && images.size() > 2) {
             throw new IllegalArgumentException("You can upload a maximum of 2 images.");
