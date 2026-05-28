@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import ThemeToggle from "../ThemeToggle";
+
 
 export default function NavBarCompany() {
     return (
@@ -37,7 +37,7 @@ export default function NavBarCompany() {
                                 </Link>
                             </li>
                         </ul>
-                        <ThemeToggle />
+
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import ThemeToggle from "../ThemeToggle";
+
 
 export default function NavBarConnection() {
     return (
@@ -12,7 +12,7 @@ export default function NavBarConnection() {
                         Bob Job Seeker
                     </Link>
                     <div className="flex items-center space-x-4">
-                        <ThemeToggle />
+
                         <Link
                             href="/auth/login"
                             className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition"

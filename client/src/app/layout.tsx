@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/context/ThemeProvider";
+
 import { ToastProvider } from "@/context/ToastContext";
 import ToastContainer from "@/components/ToastContainer";
 import GeneralNavBar from "@/components/NavBars/GeneralNavBar";
@@ -33,13 +33,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>
           <ToastProvider>
             <GeneralNavBar />
             {children}
             <ToastContainer />
           </ToastProvider>
-        </ThemeProvider>
       </body>
     </html>
   );
