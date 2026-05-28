@@ -4,7 +4,9 @@ import java.util.UUID;
 import java.time.Instant;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "marketplace", indexes = {
@@ -72,13 +75,15 @@ public class MarketPlace {
     // PostgreSQL lowercases all unquoted identifiers — mixed-case column names are
     // a silent landmine
     // that causes "column not found" errors when querying with quoted identifiers.
+    @JsonIgnore // Suppress lazy proxy serialization — user details not needed in search results
     @ManyToOne(fetch = FetchType.LAZY) // LAZY: only load user data when explicitly accessed
     @JoinColumn(name = "posting_user_id", nullable = false, updatable = false)
     private Users postingUser;
 
     // JSONB: flexible location schema — e.g. {"city": "Paris", "country": "FR",
     // "remote": false}
-    // Serialized/deserialized via ObjectMapper in the service layer
+    // Serialized/deserialized via ObjectMapper in the service layer\
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "location", nullable = false, columnDefinition = "jsonb")
     private String location;
 
@@ -91,6 +96,7 @@ public class MarketPlace {
     // ["electronics", "used"]}
     // Using JSONB allows structured descriptions without schema migrations for new
     // description fields
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "description", nullable = false, columnDefinition = "jsonb")
     private String description;
 
@@ -100,6 +106,7 @@ public class MarketPlace {
     // nullable: a listing can be posted without images
     // TODO: consider replacing with a @OneToMany FileMetadata relationship for full
     // MinIO metadata support
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "image_url", nullable = true, columnDefinition = "jsonb")
     private String imageUrl;
 

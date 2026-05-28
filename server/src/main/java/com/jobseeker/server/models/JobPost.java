@@ -65,6 +65,7 @@ public class JobPost {
     // @JoinColumn creates the "company_id" FK column in job_posts.
     // updatable=false: once a job post is assigned to a company, that cannot
     // change.
+    @com.fasterxml.jackson.annotation.JsonIgnore // Suppress lazy proxy serialization — company details not needed in search results
     @ManyToOne(fetch = FetchType.LAZY) // LAZY: only load company data when explicitly accessed
     @JoinColumn(name = "company_id", nullable = false, updatable = false)
     private Company company;

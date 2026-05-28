@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // allow login, register, refresh
                         .requestMatchers("/api/ads/search").permitAll() // allow public ad search
+                        .requestMatchers("/api/images/**").permitAll() // allow public image serving
                         .requestMatchers("/api/**").authenticated() // everything else needs token
                         .anyRequest().permitAll() // allow Swagger UI
                 )
