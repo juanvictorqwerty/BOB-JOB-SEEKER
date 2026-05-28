@@ -2,6 +2,7 @@ package com.jobseeker.server.models;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -34,6 +35,10 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// Suppresses Jackson serialization of Hibernate proxy internals (e.g.
+// hibernateLazyInitializer) when this entity is loaded lazily via a
+// @ManyToOne relationship and serialized before the proxy is initialized.
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Users {
 
     @Id

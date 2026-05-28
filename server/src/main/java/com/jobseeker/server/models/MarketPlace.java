@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "marketplace", indexes = {
@@ -74,6 +75,7 @@ public class MarketPlace {
     // PostgreSQL lowercases all unquoted identifiers — mixed-case column names are
     // a silent landmine
     // that causes "column not found" errors when querying with quoted identifiers.
+    @JsonIgnore // Suppress lazy proxy serialization — user details not needed in search results
     @ManyToOne(fetch = FetchType.LAZY) // LAZY: only load user data when explicitly accessed
     @JoinColumn(name = "posting_user_id", nullable = false, updatable = false)
     private Users postingUser;

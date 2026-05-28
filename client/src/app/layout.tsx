@@ -5,6 +5,7 @@ import "./globals.css";
 import { ToastProvider } from "@/context/ToastContext";
 import ToastContainer from "@/components/ToastContainer";
 import GeneralNavBar from "@/components/NavBars/GeneralNavBar";
+import Providers from "@/components/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,11 +34,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-          <ToastProvider>
-            <GeneralNavBar />
-            {children}
-            <ToastContainer />
-          </ToastProvider>
+          <Providers>
+            <ToastProvider>
+              <GeneralNavBar />
+              {children}
+              <ToastContainer />
+            </ToastProvider>
+          </Providers>
       </body>
     </html>
   );

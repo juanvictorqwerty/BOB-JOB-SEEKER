@@ -16,7 +16,7 @@ public class JobSearchController {
         this.searchService = searchService;
     }
 
-    @GetMapping("/api/getJobs/unified")
+    @GetMapping("/unified")
     public ResponseEntity<DTO> searchAll(
             @RequestParam(value = "q", required = false, defaultValue = "") String textQuery,
             @RequestParam(value = "page", defaultValue = "0") int page,
