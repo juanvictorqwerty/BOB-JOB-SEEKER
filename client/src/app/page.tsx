@@ -75,11 +75,10 @@ function JobCard({ job }: { job: JobPost }) {
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="font-bold text-gray-900 text-base truncate">{job.title}</h3>
             <span
-              className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${
-                job.isOpened
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "bg-red-50 text-red-600"
-              }`}
+              className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${job.isOpened
+                ? "bg-emerald-50 text-emerald-700"
+                : "bg-red-50 text-red-600"
+                }`}
             >
               {job.isOpened ? (
                 <><CheckCircle className="h-3 w-3" /> Open</>
@@ -159,12 +158,13 @@ function JobCard({ job }: { job: JobPost }) {
             )}
           </div>
 
-          {/* Listing ID */}
-          <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Listing ID</p>
-            <code className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded font-mono break-all">{job.id}</code>
-          </div>
+          {/*Email the person*/}
+          <button>
+            Contact me at {job.email}
+          </button>
+
         </div>
+
       )}
     </div>
   );
@@ -210,11 +210,10 @@ function MarketplaceCard({ item }: { item: MarketPlaceListing }) {
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="font-bold text-gray-900 text-base truncate">{item.title}</h3>
             <span
-              className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${
-                item.isOpen
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "bg-red-50 text-red-600"
-              }`}
+              className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${item.isOpen
+                ? "bg-emerald-50 text-emerald-700"
+                : "bg-red-50 text-red-600"
+                }`}
             >
               {item.isOpen ? (
                 <><CheckCircle className="h-3 w-3" /> Available</>
@@ -294,11 +293,22 @@ function MarketplaceCard({ item }: { item: MarketPlaceListing }) {
               </div>
             )}
           </div>
-
-          {/* Listing ID */}
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Listing ID</p>
-            <code className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded font-mono break-all">{item.id}</code>
+            <button
+              onClick={() => console.log(item.email)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              Contact me{ }
+            </button>
+          </div>
+          <div >
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              Hide Details
+            </button>
           </div>
         </div>
       )}

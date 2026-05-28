@@ -12,6 +12,7 @@ export interface JobPost {
     createdAt: string;
     updatedAt: string | null;
     isOpened: boolean;
+    email: string;
 }
 
 export interface MarketPlaceListing {
@@ -23,6 +24,9 @@ export interface MarketPlaceListing {
     createdAt: string;
     updatedAt: string | null;
     isOpen: boolean;
+    username: string;
+    email: string;
+
 }
 
 interface UnifiedSearchResponse {
