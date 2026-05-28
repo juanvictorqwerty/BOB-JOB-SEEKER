@@ -23,7 +23,9 @@ export default function AccountPage() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/me`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/me`, {
+                    credentials: 'include'
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch user data');
                 }
