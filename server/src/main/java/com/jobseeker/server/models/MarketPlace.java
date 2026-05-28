@@ -4,7 +4,9 @@ import java.util.UUID;
 import java.time.Instant;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -78,7 +80,8 @@ public class MarketPlace {
 
     // JSONB: flexible location schema — e.g. {"city": "Paris", "country": "FR",
     // "remote": false}
-    // Serialized/deserialized via ObjectMapper in the service layer
+    // Serialized/deserialized via ObjectMapper in the service layer\
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "location", nullable = false, columnDefinition = "jsonb")
     private String location;
 
@@ -91,6 +94,7 @@ public class MarketPlace {
     // ["electronics", "used"]}
     // Using JSONB allows structured descriptions without schema migrations for new
     // description fields
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "description", nullable = false, columnDefinition = "jsonb")
     private String description;
 
@@ -100,6 +104,7 @@ public class MarketPlace {
     // nullable: a listing can be posted without images
     // TODO: consider replacing with a @OneToMany FileMetadata relationship for full
     // MinIO metadata support
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "image_url", nullable = true, columnDefinition = "jsonb")
     private String imageUrl;
 
