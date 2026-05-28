@@ -20,13 +20,8 @@ export default function NavBarClient() {
                             </li>
 
                             <li>
-                                <Link href="/companies" className="text-gray-600 hover:text-gray-900 transition">
-                                    Companies
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/about" className="text-gray-600 hover:text-gray-900 transition">
-                                    About
+                                <Link href="/userPost" className="text-gray-600 hover:text-gray-900 transition">
+                                    My Posts
                                 </Link>
                             </li>
                             <li>
