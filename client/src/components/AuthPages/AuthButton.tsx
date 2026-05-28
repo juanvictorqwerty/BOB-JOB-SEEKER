@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "@/context/ThemeProvider";
+
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface AuthButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,20 +16,12 @@ export default function AuthButton({
     className = "",
     ...props
 }: AuthButtonProps) {
-    const { theme } = useTheme();
-    const isDark = theme === "dark";
 
     const baseClasses = "w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
     const variants = {
-        primary: `${isDark
-            ? "bg-linear-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white hover:shadow-lg hover:shadow-blue-500/25"
-            : "bg-linear-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white hover:shadow-lg hover:shadow-blue-500/20"
-            }`,
-        secondary: `${isDark
-            ? "border border-white/20 text-white hover:border-white/40 hover:bg-white/5"
-            : "border border-gray-300/50 text-gray-900 hover:border-gray-400/50 hover:bg-gray-100/30"
-            }`,
+        primary: `bg-linear-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white hover:shadow-lg hover:shadow-blue-500/20`,
+        secondary: `border border-gray-300/50 text-gray-900 hover:border-gray-400/50 hover:bg-gray-100/30`,
     };
 
     return (

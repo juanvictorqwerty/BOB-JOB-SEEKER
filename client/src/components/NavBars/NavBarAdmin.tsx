@@ -3,36 +3,36 @@
 import Link from "next/link";
 
 
-export default function NavBarCompany() {
+export default function NavBarAdmin() {
     return (
-        <nav className="bg-blue-800 text-white shadow-lg">
+        <nav className="bg-gray-900 text-white shadow-lg">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center h-16">
-                    <div className="text-xl font-bold">Bob Job Seeker - Company Portal</div>
+                    <div className="text-xl font-bold">Bob Job Seeker - Admin</div>
                     <div className="flex items-center space-x-6">
                         <ul className="flex space-x-6">
                             <li>
-                                <Link href="/company/dashboard" className="hover:text-blue-200 transition">
+                                <Link href="/admin/dashboard" className="hover:text-gray-300 transition">
                                     Dashboard
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/company/jobs" className="hover:text-blue-200 transition">
-                                    My Jobs
+                                <Link href="/admin/users" className="hover:text-gray-300 transition">
+                                    Users
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/company/applications" className="hover:text-blue-200 transition">
-                                    Applications
+                                <Link href="/admin/jobs" className="hover:text-gray-300 transition">
+                                    Jobs
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/company/post-job" className="hover:text-blue-200 transition">
-                                    Post Job
+                                <Link href="/admin/reports" className="hover:text-gray-300 transition">
+                                    Reports
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/Account" className="hover:text-blue-200 transition">
+                                <Link href="/Account" className="hover:text-gray-300 transition">
                                     Account
                                 </Link>
                             </li>

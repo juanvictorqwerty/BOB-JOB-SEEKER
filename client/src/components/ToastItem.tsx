@@ -1,7 +1,7 @@
 "use client";
 
 import { Toast } from "@/context/ToastContext";
-import { useTheme } from "@/context/ThemeProvider";
+
 
 interface ToastItemProps {
     toast: Toast;
@@ -9,42 +9,38 @@ interface ToastItemProps {
 }
 
 export default function ToastItem({ toast, onClose }: ToastItemProps) {
-    const { theme } = useTheme();
-    const isDark = theme === "dark";
 
     const getColors = () => {
-        const baseClasses = isDark
-            ? "border-white/20 shadow-xl"
-            : "border-gray-200 shadow-lg";
+        const baseClasses = "border-gray-200 shadow-lg";
 
         switch (toast.type) {
             case "success":
                 return {
-                    bg: isDark ? "bg-emerald-950/90" : "bg-emerald-50",
+                    bg: "bg-emerald-50",
                     border: `border-emerald-500/30 ${baseClasses}`,
-                    text: isDark ? "text-emerald-300" : "text-emerald-700",
+                    text: "text-emerald-700",
                     icon: "text-emerald-500",
                 };
             case "error":
                 return {
-                    bg: isDark ? "bg-red-950/90" : "bg-red-50",
+                    bg: "bg-red-50",
                     border: `border-red-500/30 ${baseClasses}`,
-                    text: isDark ? "text-red-300" : "text-red-700",
+                    text: "text-red-700",
                     icon: "text-red-500",
                 };
             case "warning":
                 return {
-                    bg: isDark ? "bg-amber-950/90" : "bg-amber-50",
+                    bg: "bg-amber-50",
                     border: `border-amber-500/30 ${baseClasses}`,
-                    text: isDark ? "text-amber-300" : "text-amber-700",
+                    text: "text-amber-700",
                     icon: "text-amber-500",
                 };
             case "info":
             default:
                 return {
-                    bg: isDark ? "bg-blue-950/90" : "bg-blue-50",
+                    bg: "bg-blue-50",
                     border: `border-blue-500/30 ${baseClasses}`,
-                    text: isDark ? "text-blue-300" : "text-blue-700",
+                    text: "text-blue-700",
                     icon: "text-blue-500",
                 };
         }
