@@ -10,6 +10,8 @@ export interface JobPost {
     description: string;
     geoLocation: string;
     createdAt: string;
+    updatedAt: string | null;
+    isOpened: boolean;
 }
 
 export interface MarketPlaceListing {
@@ -19,6 +21,8 @@ export interface MarketPlaceListing {
     description: string;
     imageUrl: string | null;
     createdAt: string;
+    updatedAt: string | null;
+    isOpen: boolean;
 }
 
 interface UnifiedSearchResponse {
