@@ -295,10 +295,13 @@ function MarketplaceCard({ item }: { item: MarketPlaceListing }) {
           </div>
           <div>
             <button
-              onClick={() => console.log(item.email)}
+              onClick={() => {
+                const email = item.email;
+                window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`, '_blank');
+              }}
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             >
-              Contact me{ }
+              Contact me
             </button>
           </div>
           <div >
