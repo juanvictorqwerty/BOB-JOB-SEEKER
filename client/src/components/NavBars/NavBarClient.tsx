@@ -21,11 +21,7 @@ export default function NavBarClient() {
                                     Home
                                 </Link>
                             </li>
-                            <li>
-                                <Link href="/jobs" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition">
-                                    Find Jobs
-                                </Link>
-                            </li>
+
                             <li>
                                 <Link href="/companies" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition">
                                     Companies
