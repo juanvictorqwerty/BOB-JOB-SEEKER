@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
+import org.springframework.web.bind.annotation.CookieValue;
+
 @RestController
 public class ChangeEmailController {
     private final ChangEmailService changEmailService;
@@ -15,13 +17,14 @@ public class ChangeEmailController {
         this.changEmailService = changEmailService;
     }
 
-    @PostMapping("api/auth/change-email")
+    @PostMapping("/api/auth/change-email")
     public String changeEmail(
-            @RequestHeader("Authorization") String authHeader,
+            @CookieValue(value = "token", required = false) String token,
             @Valid @RequestBody ChangeEmailValidation changeEmailValidation) {
 
-        // Extract token from "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
+        if (token == null || token.isEmpty()) {
+            return "Missing token";
+        }
 
         return changEmailService.changeEmail(token, changeEmailValidation);
     }

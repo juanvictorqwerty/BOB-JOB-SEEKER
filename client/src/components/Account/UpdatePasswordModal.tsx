@@ -1,0 +1,115 @@
+'use client';
+
+import { useState } from 'react';
+
+interface UpdatePasswordModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+export default function UpdatePasswordModal({ isOpen, onClose }: UpdatePasswordModalProps) {
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [status, setStatus] = useState<{ type: 'idle' | 'loading' | 'success' | 'error', message?: string }>({ type: 'idle' });
+
+    if (!isOpen) return null;
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus({ type: 'loading' });
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/auth/update-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    oldPassword,
+                    newPassword
+                })
+            });
+
+            const data = await response.text();
+
+            if (response.ok && data.includes('successfully')) {
+                setStatus({ type: 'success', message: data });
+                setTimeout(() => {
+                    onClose();
+                    // Redirect to login or reload since tokens are revoked
+                    window.location.href = '/login'; 
+                }, 3000);
+            } else {
+                setStatus({ type: 'error', message: data || 'Failed to update password' });
+            }
+        } catch (err) {
+            setStatus({ type: 'error', message: 'Network error occurred' });
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 relative">
+                <button 
+                    onClick={onClose}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                >
+                    ✕
+                </button>
+                
+                <h2 className="text-xl font-semibold text-gray-900 mb-6">Change Password</h2>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                        <input
+                            type="password"
+                            required
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow text-gray-900"
+                            placeholder="Enter current password"
+                        />
+                    </div>
+                    
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                        <input
+                            type="password"
+                            required
+                            minLength={6}
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow text-gray-900"
+                            placeholder="Enter new password"
+                        />
+                    </div>
+
+                    {status.message && (
+                        <div className={`p-3 rounded-lg text-sm ${status.type === 'error' ? 'bg-red-50 text-red-700' : status.type === 'success' ? 'bg-green-50 text-green-700' : ''}`}>
+                            {status.message}
+                        </div>
+                    )}
+
+                    <div className="mt-6 flex justify-end space-x-3">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={status.type === 'loading'}
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                        >
+                            {status.type === 'loading' ? 'Updating...' : 'Update Password'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}

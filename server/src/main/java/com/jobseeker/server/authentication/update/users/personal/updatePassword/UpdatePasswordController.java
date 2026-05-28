@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
+import org.springframework.web.bind.annotation.CookieValue;
+
 @RestController
 public class UpdatePasswordController {
     private final UpdatePasswordService updatePasswordService;
@@ -17,11 +19,12 @@ public class UpdatePasswordController {
 
     @PostMapping("/api/auth/update-password")
     public String updatePassword(
-            @RequestHeader("Authorization") String authHeader,
+            @CookieValue(value = "token", required = false) String token,
             @Valid @RequestBody UpdatePasswordValidation updatePasswordValidation) {
 
-        // Extract token from "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
+        if (token == null || token.isEmpty()) {
+            return "Missing token";
+        }
 
         return updatePasswordService.updatePassword(token, updatePasswordValidation);
     }

@@ -5,6 +5,8 @@ import ProfileCard from '@/components/Account/ProfileCard';
 import InfoGrid from '@/components/Account/Infogrid';
 import RankBadge from '@/components/Account/RankUser';
 import LoadingSpinner from '@/components/Account/LoadingSpinner';
+import UpdateEmailModal from '@/components/Account/UpdateEmailModal';
+import UpdatePasswordModal from '@/components/Account/UpdatePasswordModal';
 
 interface UserData {
     success: boolean;
@@ -19,6 +21,10 @@ export default function AccountPage() {
     const [user, setUser] = useState<UserData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    
+    // Modal states
+    const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -59,9 +65,35 @@ export default function AccountPage() {
 
                         {/* Info Grid */}
                         <InfoGrid user={user} />
+
+                        {/* Actions */}
+                        <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                            <button 
+                                className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                                onClick={() => setIsEmailModalOpen(true)}
+                            >
+                                Update Email
+                            </button>
+                            <button 
+                                className="px-6 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-200 transition-colors"
+                                onClick={() => setIsPasswordModalOpen(true)}
+                            >
+                                Change Password
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            {/* Modals */}
+            <UpdateEmailModal 
+                isOpen={isEmailModalOpen} 
+                onClose={() => setIsEmailModalOpen(false)} 
+            />
+            <UpdatePasswordModal 
+                isOpen={isPasswordModalOpen} 
+                onClose={() => setIsPasswordModalOpen(false)} 
+            />
         </main>
     );
 }
